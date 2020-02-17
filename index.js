@@ -1,36 +1,36 @@
 const restify = require("restify");
-const Foto = require("./models/Foto");
+const Salgado = require("./models/Salgado");
 
 const server = restify.createServer({
-    name: "Projeto final - EB019"
+    name: "Exemplo - EB019"
 });
 
 server.use(restify.plugins.bodyParser());
 server.use(restify.plugins.queryParser());
 
-server.post("/foto", async (req, res) => {
-    let { modelo, ano } = req.body;
+async function inserirSalgado(req, res) {
+    let { nome, preco } = req.body;
 
-    let foto = await Foto.create(
+    let salgado = await Salgado.create(
         {
-            modelo,
-            ano
+            nome,
+            preco
         }
     );
 
-    let createdFoto = await Foto.findByPk(foto.id);
+    let createdSalgado = await Salgado.findByPk(salgado.id);
 
-    res.json(createdFoto);
-});
+    res.json(createdSalgado);
+};
 
-server.patch("/foto/:id", async (req, res) => {
+async function atualizarSalgado(req, res) {
     let id = req.params.id;
-    let { modelo, ano } = req.body;
+    let { nome, preco } = req.body;
 
-    await Foto.update(
+    await Salgado.update(
         {
-            modelo,
-            ano
+            nome,
+            preco
         },
         {
             where: {
@@ -39,37 +39,37 @@ server.patch("/foto/:id", async (req, res) => {
         }
     );
 
-    let updatedFoto = await Foto.findByPk(id);
+    let updatedSalgado = await Salgado.findByPk(id);
 
-    res.json(updatedFoto);
-});
+    res.json(updatedSalgado);
+};
 
-server.get("/foto", async (req, res) => {
+async function buscarSalgado(req, res) {
     let id = req.query.id;
-    let ano = req.query.ano;
+    let nome = req.query.nome;
 
     if (id) {
-        let fotos = await Foto.findByPk(id);
-        res.json(fotos);
-    } else if (ano) {
-        let fotos = await Foto.findAll(
+        let salgados = await Salgado.findByPk(id);
+        res.json(salgados);
+    } else if (nome) {
+        let salgados = await Salgado.findAll(
             {
                 where: {
-                    ano
+                    nome
                 }
             }
         );
-        res.json(fotos);
+        res.json(salgados);
     } else {
-        let fotos = await Foto.findAll();
-        res.json(fotos);
+        let salgados = await Salgado.findAll();
+        res.json(salgados);
     }
-});
+};
 
-server.del("/foto/:id", async (req, res) => {
+async function excluirSalgado(req, res) {
     let id = req.params.id;
 
-    let deleted = await Foto.destroy(
+    let deleted = await Salgado.destroy(
         {
             where: {
                 id
@@ -78,7 +78,12 @@ server.del("/foto/:id", async (req, res) => {
     );
 
     res.json({ deleted });
-});
+};
+
+server.post("/salgado", inserirSalgado);
+server.patch("/salgado/:id", atualizarSalgado);
+server.get("/salgado", buscarSalgado);
+server.del("/salgado/:id", excluirSalgado);
 
 server.listen(3000, () => {
     console.log("EB019 rodando...");

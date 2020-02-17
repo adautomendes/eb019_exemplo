@@ -1,13 +1,13 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/Conexao");
 
-const Foto = sequelize.define('foto', {
-    modelo: Sequelize.TEXT,
-    ano: Sequelize.NUMBER,
+const Salgado = sequelize.define('salgado', {
+    nome: Sequelize.TEXT,
+    preco: Sequelize.DOUBLE,
     data_inclusao: Sequelize.DATE
 }, {
     timestamps: false,
-    tableName: 'foto'
+    tableName: 'salgado'
 });
 
-module.exports = Foto;
+module.exports = Salgado;
