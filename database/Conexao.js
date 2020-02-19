@@ -14,17 +14,6 @@ const sequelize = new Sequelize('eb019_exemplo', 'root', '', {
 });
 
 /**
- * Função que faz a autenticação no BD
-*/
-sequelize.authenticate()
-    .then(() => {
-        console.log('Conectado ao BD.');
-    })
-    .catch(err => {
-        console.error('Erro ao conectar ao BD:', err);
-    });
-
-/**
  * Exportando módulo para ser usado externamente.
  * Aqui exportamos a conexão com o BD.
  */
